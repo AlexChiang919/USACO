@@ -18,9 +18,8 @@ import java.io.PrintWriter;
 public class Template {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader f = new BufferedReader(new FileReader(".in"));
-		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(".out")));
-
+		BufferedReader f = new BufferedReader(new FileReader(Template.class.getName() + ".in"));
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(Template.class.getName() + ".out")));
 		out.close();
 		f.close();
 	}
