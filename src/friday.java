@@ -1,6 +1,6 @@
 /*
 ID: agentle1
-PROG: template
+PROG: friday
 LANG: JAVA
 */
 import java.io.BufferedReader;
@@ -21,19 +21,20 @@ public class friday {
 	public static void main(String[] args) throws IOException {
 		BufferedReader f = new BufferedReader(new FileReader(friday.class.getName() + ".in"));
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(friday.class.getName() + ".out")));
-		int years = f.read();
+		int years = Integer.parseInt(f.readLine());
 		int[] occ = new int[7];
 		Arrays.fill(occ, 0);
 		int day = 2;
 		for (int y = 0; y < years; y++) {
+			int year = 1900 + y;
 			for (int m = 0; m < 12; m++) {
-				int days = days(m, y);
+				int days = days(m, year);
 				for (int d = 0; d < days; d++) {
-					if (d + 1 == 13)
+					if (d + 1 == 13) {
 						occ[day]++;
+					}
 					day++;
-					if (day == 7)
-						day = 0;
+					day %= 7;
 				}
 			}
 		}
