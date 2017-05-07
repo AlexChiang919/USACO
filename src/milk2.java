@@ -9,12 +9,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.StringTokenizer;
 
 /**
  * 
- * @author Alex Chiang
+ * @author antonio081014
  *
  */
 public class milk2 {
@@ -22,62 +20,39 @@ public class milk2 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader f = new BufferedReader(new FileReader(milk2.class.getName() + ".in"));
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(milk2.class.getName() + ".out")));
-		int T = Integer.parseInt(f.readLine());
-		HashMap<Integer, Long> start = new HashMap<Integer, Long>();
-		HashMap<Integer, Long> end = new HashMap<Integer, Long>();
-		long begin = 10000000, fin = 0;
-		for (int i = 0; i < T; i++) {
-			StringTokenizer st = new StringTokenizer(f.readLine());
-			long s = Long.parseLong(st.nextToken()), e = Long.parseLong(st.nextToken());
-			start.put(i, s);
-			end.put(i, e);
-			if (s < begin)
-				begin = s;
-			if (e > fin)
-				fin = e;
-		}
-		long mostyes = -1;
-		long mostno = -1;
-		long cy = 0;
-		long cn = 0;
-		for (long st = begin; st <= fin; st++) {
-			if (check(start, end, st)) {
-				if (mostno < cn) {
-					mostno = cn;
-					printLine(mostno + " No " + st);
-					cn = 0;
-					cy = 0;
-				}
-				cy++;
-			} else {
-				if (mostyes < cy) {
-					mostyes = cy;
-					printLine(mostyes + " Yes " + st);
-					cy = 0;
-					cn = 0;
-				}
-				cn++;
-			}
-		}
-		if (mostyes < cy) {
-			mostyes = cy;
-			cy = 0;
-		}
-		if (mostno < cn) {
-			mostno = cn;
-			cn = 0;
-		}
-		out.println(mostyes + " " + mostno);
-		out.close();
-		f.close();
-	}
-	
-	public static boolean check(HashMap<Integer, Long> start, HashMap<Integer, Long> end, long time) {
-		for (Integer i : start.keySet()) {
-			if (time >= start.get(i) && time < end.get(i))
-				return true;
-		}
-		return false;
+		int N = Integer.parseInt(f.readLine());
+		int[] count = new int[1000001];
+		int startTime = 1000000;
+        int endTime = 0;
+        for (int i = 0; i < N; i++) {
+            String[] strs = f.readLine().split("\\s");
+            int start = Integer.parseInt(strs[0]);
+            int end = Integer.parseInt(strs[1]);
+            startTime = Math.min(start, startTime);
+            endTime = Math.max(end, endTime);
+            for (int k = start; k < end; k++)
+                count[k]++;
+        }
+        int maxTime1 = 0;
+        int maxTime2 = 0;
+        int tmp1 = 0;
+        int tmp2 = 0;
+        for (int i = startTime; i < endTime; i++) {
+            if (count[i] > 0) {
+                tmp1++;
+                tmp2 = 0;
+            }
+            else {
+                tmp2++;
+                tmp1 = 0;
+            }
+
+            maxTime1 = Math.max(maxTime1, tmp1);
+            maxTime2 = Math.max(maxTime2, tmp2);
+        }
+        out.write("" + maxTime1 + " " + maxTime2 + "\n");
+        f.close();
+        out.close();
 	}
 
 	public static void print(Object... o) {

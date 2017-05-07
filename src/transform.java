@@ -1,7 +1,7 @@
 
 /*
 ID: agentle1
-PROG: template
+PROG: transform
 LANG: JAVA
 */
 import java.io.BufferedReader;
@@ -29,33 +29,38 @@ public class transform {
 		for (int i = 0; i < N; i++)
 			transform[i] = f.readLine().toCharArray();
 		if (check90(original, transform))
-			printLine(1);
+			out.println(1);
 		else if (check180(original, transform))
-			printLine(2);
+			out.println(2);
 		else if (check270(original, transform))
-			printLine(3);
+			out.println(3);
 		else if (reflectCheck(original, transform))
-			printLine(4);
+			out.println(4);
 		else if (comboCheck(original, transform))
-			printLine(5);
+			out.println(5);
 		else if (sameCheck(original, transform))
-			printLine(6);
+			out.println(6);
 		else
-			printLine(7);
+			out.println(7);
 		out.close();
 		f.close();
 	}
 
 	public static boolean check90(char[][] original, char[][] transformed) {
-		int ii = 0, jj = 0;
-		for (int i = 0; i < original[0].length; i++) {
-			for (int j = original.length - 1; j >= 0; j--) {
-				if (transformed[ii][jj] != original[i][j])
-					return false;
-				jj++;
+		int nr = 0, nc = original[0].length - 1;
+		char[][] after = new char[original.length][original[0].length];
+		for (int r = 0; r < original.length; r++) {
+			for (int c = 0; c < original[r].length; c++) {
+				after[nr++][nc] = original[r][c];
+				//nr %= original.length;
 			}
-			ii++;
+			nr = 0;
+			nc--;
 		}
+		for (int r = 0; r < after.length; r++)
+			for (int c = 0; c < after[r].length; c++)
+				if (after[r][c] != transformed[r][c])
+					return false;
 		return true;
 	}
 

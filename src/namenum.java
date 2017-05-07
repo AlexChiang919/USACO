@@ -1,6 +1,6 @@
 /*
 ID: agentle1
-PROG: template
+PROG: namenum
 LANG: JAVA
 */
 import java.io.BufferedReader;
@@ -15,14 +15,14 @@ import java.io.PrintWriter;
  * @author Alex Chiang
  *
  */
-public class Template {
+public class namenum {
 
 	private static BufferedReader scan;
 	private static PrintWriter out;
 	
 	public static void main(String[] args) throws IOException {
-		scan = new BufferedReader(new FileReader(Template.class.getSimpleName() + ".in"));
-		out = new PrintWriter(new BufferedWriter(new FileWriter(Template.class.getName() + ".out")));
+		scan = new BufferedReader(new FileReader(namenum.class.getSimpleName() + ".in"));
+		out = new PrintWriter(new BufferedWriter(new FileWriter(namenum.class.getName() + ".out")));
 		
 		out.close();
 		scan.close();
