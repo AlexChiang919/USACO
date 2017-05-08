@@ -22,7 +22,7 @@ public class Template {
 	
 	public static void main(String[] args) throws IOException {
 		scan = new BufferedReader(new FileReader(Template.class.getSimpleName() + ".in"));
-		out = new PrintWriter(new BufferedWriter(new FileWriter(Template.class.getName() + ".out")));
+		out = new PrintWriter(new BufferedWriter(new FileWriter(Template.class.getSimpleName() + ".out")));
 		
 		out.close();
 		scan.close();
