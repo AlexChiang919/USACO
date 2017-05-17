@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -31,14 +33,14 @@ public class namenum {
 		out = new PrintWriter(new BufferedWriter(new FileWriter(namenum.class.getSimpleName() + ".out")));
 		printLine(map);
 		BufferedReader df = new BufferedReader(new FileReader("dict.txt"));
-		ArrayList<String> dict = new ArrayList<String>();
+		Set<String> dict = new HashSet<String>();
 		while (df.ready())
 			dict.add(df.readLine());
 		df.close();
 		long serial = Long.parseLong(scan.readLine());
 		List<String> possible = generatePossible(serial);
 		for (String s : possible)
-			if (binarySearch(dict, s))
+			if (dict.contains(s))
 				printLine(s);
 		out.close();
 		scan.close();
@@ -75,23 +77,6 @@ public class namenum {
 		return possible;
 	}
 	
-	public static boolean binarySearch(ArrayList<String> list, String s) {
-		return s(list, s, 0, list.size());
-	}
-	
-	private static boolean s(ArrayList<String> list, String s, int start, int end) {
-		int mid = list.size() / 2;
-		String at = list.get(mid);
-		if (at.equals(s))
-			return true;
-		else {
-			if (at.compareTo(s) > 0)
-				return s(list, s, start, mid);
-			else
-				return s(list, s, mid, end);
-		}
-	}
-
 	public static void print(Object... o) {
 		for (Object obj : o) {
 			out.print(obj);
