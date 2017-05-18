@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +32,6 @@ public class namenum {
 		setup();
 		scan = new BufferedReader(new FileReader(namenum.class.getSimpleName() + ".in"));
 		out = new PrintWriter(new BufferedWriter(new FileWriter(namenum.class.getSimpleName() + ".out")));
-		printLine(map);
 		BufferedReader df = new BufferedReader(new FileReader("dict.txt"));
 		Set<String> dict = new HashSet<String>();
 		while (df.ready())
@@ -39,9 +39,15 @@ public class namenum {
 		df.close();
 		long serial = Long.parseLong(scan.readLine());
 		List<String> possible = generatePossible(serial);
+		Collections.sort(possible);
+		boolean none = true;
 		for (String s : possible)
-			if (dict.contains(s))
+			if (dict.contains(s)) {
+				none = false;
 				printLine(s);
+			}
+		if (none)
+			printLine("NONE");
 		out.close();
 		scan.close();
 	}
@@ -64,17 +70,20 @@ public class namenum {
 		}
 	}
 	
-	public static ArrayList<String> generatePossible(long number) {
-		ArrayList<String> possible = new ArrayList<String>();
-		int length = String.valueOf(number).length();
-		for (int i = 0; i < length; i++) {
-			ArrayList<String> p = new ArrayList<String>();
-			ArrayList<Character> mini = map.get(Integer.parseInt("" + String.valueOf(number).charAt(i)));
-			for (char c : mini)
-				;
-		}
-		
+	public static List<String> generatePossible(long number) {
+		List<String> possible = new ArrayList<String>();
+		recur(number, possible, 0, "");
 		return possible;
+	}
+	
+	public static void recur(long number, List<String> possible, int i, String current) {
+		if (i == String.valueOf(number).length()) {
+			if (!possible.contains(current))
+				possible.add(current);
+		} else {
+			for (char c : map.get(Integer.parseInt("" + String.valueOf(number).charAt(i))))
+				recur(number, possible, i + 1, current + c);
+		}
 	}
 	
 	public static void print(Object... o) {
