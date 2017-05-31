@@ -10,11 +10,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 
@@ -25,6 +24,7 @@ public class namenum {
 
 	private static BufferedReader scan;
 	private static PrintWriter out;
+	private static Set<String> dictionary;
 	
 	private static HashMap<Integer, ArrayList<Character>> map = new HashMap<Integer, ArrayList<Character>>(); 
 	
@@ -34,12 +34,12 @@ public class namenum {
 		out = new PrintWriter(new BufferedWriter(new FileWriter(namenum.class.getSimpleName() + ".out")));
 		BufferedReader df = new BufferedReader(new FileReader("dict.txt"));
 		Set<String> dict = new HashSet<String>();
+		dictionary = dict;
 		while (df.ready())
 			dict.add(df.readLine());
 		df.close();
 		long serial = Long.parseLong(scan.readLine());
-		List<String> possible = generatePossible(serial);
-		Collections.sort(possible);
+		Set<String> possible = generatePossible(serial);
 		boolean none = true;
 		for (String s : possible)
 			if (dict.contains(s)) {
@@ -70,19 +70,20 @@ public class namenum {
 		}
 	}
 	
-	public static List<String> generatePossible(long number) {
-		List<String> possible = new ArrayList<String>();
-		recur(number, possible, 0, "");
+	public static Set<String> generatePossible(long number) {
+		Set<String> possible = new TreeSet<String>();
+		for (char c : map.get(Integer.parseInt("" + String.valueOf(number).charAt(0))))
+			recur(number, possible, 1, new StringBuilder("" + c));
 		return possible;
 	}
 	
-	public static void recur(long number, List<String> possible, int i, String current) {
+	public static void recur(long number, Set<String> possible, int i, StringBuilder current) {
 		if (i == String.valueOf(number).length()) {
-			if (!possible.contains(current))
-				possible.add(current);
+			if (!possible.contains(current.toString()) && dictionary.contains(current.toString()))
+				possible.add(current.toString());
 		} else {
 			for (char c : map.get(Integer.parseInt("" + String.valueOf(number).charAt(i))))
-				recur(number, possible, i + 1, current + c);
+				recur(number, possible, i + 1, current.append(c));
 		}
 	}
 	
